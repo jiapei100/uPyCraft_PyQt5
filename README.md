@@ -1,5 +1,7 @@
 # uPyCraft_PyQt5
+
 This is my modified version of [uPyCraft](https://github.com/DFRobot/uPyCraft) based on [PyQt5](https://sourceforge.net/projects/pyqt/files/PyQt5/). I believe it's platform independent, however, ONLY Linux has been tested so far.
+
 
 ## Environment
 * Ubuntu 18.04.1
@@ -7,9 +9,11 @@ This is my modified version of [uPyCraft](https://github.com/DFRobot/uPyCraft) b
 * Qt 5.11.1
 * PyQt5
 
+
 ## Pre-Install
 
-1. python3
+### 1. python3
+
 ```bash
 $ python --version
 Python 3.6.5
@@ -23,25 +27,29 @@ $ pip3 install -U pyflakes --user
 $ pip3 install -U pyserial --user
 ```
 
-2. QT
+### 2. QT
+
 Download the NEWEST **qt-opensource-linux-x64-5.11.1.run** from https://www.qt.io/download, and:
 ```bash
     $ sudo ./qt-opensource-linux-x64-5.11.1.run
 ```
 
-3. SIP
+### 3. SIP
+
 Refer to https://riverbankcomputing.com/software/sip/download
 ```bash
     $ pip3 install -U sip --user
 ```
         
-4. PyQt5
+### 4. PyQt5
+   
 Refer to https://sourceforge.net/projects/pyqt/files/PyQt5/
 ```bash
    $ pip3 install -U pyqt5 --user
 ```
 
-5. QScintilla2
+### 5. QScintilla2
+   
 Refer to https://pypi.org/project/QScintilla/
 ```bash
 $ pip3 install -U QScintilla --user
@@ -56,6 +64,7 @@ $ pyinstaller -F uPyCraft.py
 
 
 ## Run uPyCraft
+
 ```bash
 $ cd dist
 $ ./uPyCraft
@@ -64,3 +73,7 @@ $ ./uPyCraft
 ![uPyCraft GUI](https://raw.githubusercontent.com/LongerVision/Resource/master/uPyCraft/uPyCraft.jpg)
 
 
+## To Be Supported
+
+* [OpenMV](https://openmv.io/)
+* [PyBoard](http://micropython.org/)
