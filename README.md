@@ -1,5 +1,5 @@
 # uPyCraft_PyQt5
-### This is my modified version of uPyCraft based on PyQt5. For now, ONLY Linux is supported.
+This is my modified version of [uPyCraft](https://github.com/DFRobot/uPyCraft) based on [PyQt5](https://sourceforge.net/projects/pyqt/files/PyQt5/). For now, ONLY Linux is supported.
 
 ## Environment
 * Ubuntu 18.04.1
@@ -53,3 +53,14 @@ $ pip3 install -U QScintilla --user
 ```bash
 $ pyinstaller -F uPyCraft.py
 ```
+
+
+## Run uPyCraft
+```bash
+$ cd dist
+$ ./uPyCraft
+```
+
+![uPyCraft GUI](https://raw.githubusercontent.com/LongerVision/Resource/master/uPyCraft/uPyCraft.jpg)
+
+
