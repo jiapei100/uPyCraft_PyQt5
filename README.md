@@ -18,9 +18,9 @@ pip 18.0 from ~/.local/lib/python3.6/site-packages/pip (python 3.6)
 $ pip3 --version
 pip 18.0 from ~/.local/lib/python3.6/site-packages/pip (python 3.6)
 
-pip3 install -U pyinstaller --user
-pip3 install -U pyflakes --user
-pip3 install -U pyserial --user
+$ pip3 install -U pyinstaller --user
+$ pip3 install -U pyflakes --user
+$ pip3 install -U pyserial --user
 ```
 
 2. QT
