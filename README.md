@@ -73,7 +73,19 @@ $ ./uPyCraft
 ![uPyCraft GUI](https://raw.githubusercontent.com/LongerVision/Resource/master/uPyCraft/uPyCraft.jpg)
 
 
-## To Be Supported
+## Boards
+
+### Supported
+
+* [ESP8266](https://arduino-esp8266.readthedocs.io/en/latest/boards.html)
+* [ESP32](https://www.espressif.com/en/products/hardware/development-boards)
+* [PyBoard](http://micropython.org/)
+* [TPYBoardV202](https://github.com/TPYBoard)
+* [TPYBoardV102](http://tpyboard.com/)
+* [micro:bit](https://microbit.org/)
+
+### To Be Supported
 
 * [OpenMV](https://openmv.io/)
-* [PyBoard](http://micropython.org/)
+
+
