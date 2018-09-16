@@ -1,0 +1,5 @@
+#hardware platform: FireBeetle-ESP32from machine import IISfrom machine import Pinimport timerecorder = IIS(IIS.RECORDER)                        #create a iis objectbutton = Pin(16, Pin.IN)def mycb(path):  print("callback : record "+path + " is done ")recorder.init()                                     #init recorderrecorder.set_nchannels(2)                           #set channelrecorder.set_sampwidth(16)                          #set Sample widthrecorder.set_framerate(16000)                       #set frameraterecorder.record('/sd//dir1///dir2/hidfrobot.wav')   #set wav will be playedrecorder.set_endcallback(mycb)                      #set callback#Catch exceptions,stop recorder if interrupted accidentallytry:
+  while True:    if button.value() == 0:      recorder.stop()    elif recorder.get_busy() == False:              #if recorder not play,stop recorder      print("record finished")
+      break
+except:
+  recorder.stop()

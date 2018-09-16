@@ -1,0 +1,4 @@
+#hardware platform:FireBeetle-ESP8266import timefrom machine import Pin,I2C
+i2c = I2C(scl=Pin(5),sda=Pin(4), freq=100000)   #create I2C object,init Pin and frequencyb=bytearray("dfrobot")                          #create a arrayi2c.writeto_mem(0x50,0,b,addrsize=16)           #Write b to the slave specified by 0x50 starting                                                 #from the memory address specified by 0, The addrsize is 16
+time.sleep(0.1)
+print(i2c.readfrom_mem(0x50,0,7,addrsize=16))   #Read 7 bytes from the slave specified by 0x50 starting from the memory address specified by 0.                                                 #The addrsize specifies the address size in bits. Returns a bytes object with the data read.
