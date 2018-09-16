@@ -1,5 +1,5 @@
 # uPyCraft_PyQt5
-This is my modified version of [uPyCraft](https://github.com/DFRobot/uPyCraft) based on [PyQt5](https://sourceforge.net/projects/pyqt/files/PyQt5/). For now, ONLY Linux is supported.
+This is my modified version of [uPyCraft](https://github.com/DFRobot/uPyCraft) based on [PyQt5](https://sourceforge.net/projects/pyqt/files/PyQt5/). I believe it's platform independent, however, ONLY Linux has been tested so far.
 
 ## Environment
 * Ubuntu 18.04.1
