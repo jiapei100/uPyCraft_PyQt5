@@ -54,15 +54,15 @@ class myTerminal(QTextEdit):
         self.terminalRightMenu=None
         self.createTerminalRightMenu()
 
-        self.mainWidget=parent
+        self.ui=parent
         self.queue=queue
         self.currentBoard="esp32"
-        # self.connect(self.mainWidget,SIGNAL("changeCurrentBoard"),self.changeBoard)
-        # self.connect(self.mainWidget,SIGNAL("initRecvdata"),self.initRecvdata)
-        # self.connect(self.mainWidget,SIGNAL("initMessycode"),self.initMessycode)
-        self.mainWidget.sig_changeCurrentBoard.connect(self.changeBoard)
-        self.mainWidget.sig_initRecvdata.connect(self.initRecvdata)
-        self.mainWidget.sig_initMessycode.connect(self.initMessycode)
+        # self.connect(self.ui,SIGNAL("changeCurrentBoard"),self.changeBoard)
+        # self.connect(self.ui,SIGNAL("initRecvdata"),self.initRecvdata)
+        # self.connect(self.ui,SIGNAL("initMessycode"),self.initMessycode)
+        self.ui.sig_changeCurrentBoard.connect(self.changeBoard)
+        self.ui.sig_initRecvdata.connect(self.initRecvdata)
+        self.ui.sig_initMessycode.connect(self.initMessycode)
 
         self.keyPressMsg=""
         self.recvdata=""

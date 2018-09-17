@@ -17,10 +17,10 @@ currentTempPath="%s/opt/uPyCraft/temp/"%rootDirectoryPath
 
 class ctrlAction(QThread):
     sig_uiRecvFromCtrl = pyqtSignal(str)
-    sig_reflushTree = pyqtSignal(str)
+    sig_reflushTree = pyqtSignal(dict)
     sig_checkFiremware = pyqtSignal(str)
-    sig_loadFileSig = pyqtSignal(str, str)
-    sig_deleteBoardFileSig = pyqtSignal(str)
+    sig_loadFile = pyqtSignal(str, str)
+    sig_deleteBoardFile = pyqtSignal(str)
     sig_renameDirDeleteDirTab = pyqtSignal(list)
 
     def __init__(self,readWriteUart,readWriteQueue,ctrltouiQueue,parent):
@@ -131,6 +131,7 @@ class ctrlAction(QThread):
         else:
             self.ctrltouartQueue.put("ctrltouart:::import os\r\n")
 
+        print("Everything is OK 1")
         startTime=time.time()
         while True:
             if self.importUosMsg=="":
@@ -157,6 +158,7 @@ class ctrlAction(QThread):
                 time.sleep(0.01)
             return
 
+        print("Everything is OK 2")
         self.importUosBool=False
         self.importUosMsg=""
 
@@ -418,8 +420,8 @@ class ctrlAction(QThread):
 
             print(self.returnUIinDirFile)
 
-            # self.emit(SIGNAL("renameDirDeleteDirTab"),self.returnUIinDirFile)
-            self.renameDirDeleteDirTab.emit(self.returnUIinDirFile)
+            # self.emit(SIGNAL("sig_renameDirDeleteDirTab"),self.returnUIinDirFile)
+            self.sig_renameDirDeleteDirTab.emit(self.returnUIinDirFile)
 
             self.renameMsg=""
             self.ctrltouartQueue.put("ctrltouart:::os.rename(\'%s\',\'%s\')\r\n"%(str(oldname),str(newname)))
@@ -507,25 +509,25 @@ class ctrlAction(QThread):
             if endTime-startTime>2:
                 self.checkFirmwareBool=False
                 self.checkFirmwareMsg=""
-                # self.emit(SIGNAL("checkFiremware"),"false")
-                self.checkFiremware.emit("false")
+                # self.emit(SIGNAL("sig_checkFiremware"),"false")
+                self.sig_checkFiremware.emit("false")
                 return
         if self.checkFirmwareMsg.find("Traceback")>=0 or self.checkFirmwareMsg.find("... ")>=0:
             self.checkFirmwareBool=False
             returnData=self.checkFirmwareMsg
             self.checkFirmwareMsg=""
             if returnData.find("Traceback")>=0:
-                # self.emit(SIGNAL("checkFiremware"),"false")
-                self.checkFiremware.emit("false")
+                # self.emit(SIGNAL("sig_checkFiremware"),"false")
+                self.sig_checkFiremware.emit("false")
             else:
                 self.ctrltouartQueue.put("ctrltouart:::\x03")
                 time.sleep(0.01)
-                # self.emit(SIGNAL("checkFiremware"),"false")
-                self.checkFiremware.emit("false")
+                # self.emit(SIGNAL("sig_checkFiremware"),"false")
+                self.sig_checkFiremware.emit("false")
             return
         else:
-            # self.emit(SIGNAL("checkFiremware"),self.checkFirmwareMsg)
-            self.checkFiremware.emit(self.checkFirmwareMsg)
+            # self.emit(SIGNAL("sig_checkFiremware"),self.checkFirmwareMsg)
+            self.sig_checkFiremware.emit(self.checkFirmwareMsg)
             self.checkFirmwareMsg=""
             self.checkFirmwareBool=False
             return
@@ -698,8 +700,8 @@ class ctrlAction(QThread):
                 self.sig_uiRecvFromCtrl.emit("rm file false3")
             return
 
-        # self.emit(SIGNAL("deleteBoardFileSig"),filename)
-        self.deleteBoardFileSig.emit(filename)
+        # self.emit(SIGNAL("sig_deleteBoardFile"),filename)
+        self.sig_deleteBoardFile.emit(filename)
         self.deleteFileBool=False
         self.deleteFileMsg=""
 
@@ -790,8 +792,8 @@ class ctrlAction(QThread):
                     self.sig_uiRecvFromCtrl.emit("rm file false3")
                 return
 
-            # self.emit(SIGNAL("deleteBoardFileSig"),filename)
-            self.deleteBoardFileSig.emit(filename)
+            # self.emit(SIGNAL("sig_deleteBoardFile"),filename)
+            self.sig_deleteBoardFile.emit(filename)
         else:#rmdir
             self.deleteFileMsg=""
             self.ctrltouartQueue.put("ctrltouart:::os.listdir(\'%s\')\r\n"%str(filename))
@@ -845,8 +847,8 @@ class ctrlAction(QThread):
                             self.sig_uiRecvFromCtrl.emit("rm dir false")
                             return
 
-            # self.emit(SIGNAL("renameDirDeleteDirTab"),self.returnUIinDirFile)
-            self.renameDirDeleteDirTab.emit(self.returnUIinDirFile)
+            # self.emit(SIGNAL("sig_renameDirDeleteDirTab"),self.returnUIinDirFile)
+            self.sig_renameDirDeleteDirTab.emit(self.returnUIinDirFile)
 
             self.deleteFileMsg=""
 
@@ -996,8 +998,8 @@ class ctrlAction(QThread):
         myfile.write(appendMsg)
         myfile.close()
 
-        # self.emit(SIGNAL("loadFileSig"),filename,appendMsg)
-        self.loadFileSig.emit(filename,appendMsg)
+        # self.emit(SIGNAL("sig_loadFile"),filename,appendMsg)
+        self.sig_loadFile.emit(filename,appendMsg)
         self.loadFileMsg=""
         self.loadFileBool=False
 
@@ -1269,8 +1271,8 @@ class ctrlAction(QThread):
             if endTime-startTime>3:
                 self.reflushTreeBool=False
                 self.reflushTreeMsg=""
-                # self.emit(SIGNAL("reflushTree"),"err")
-                self.reflushTree.emit("err")
+                # self.emit(SIGNAL("sig_reflushTree"),"err")
+                self.sig_reflushTree.emit("err")
                 return "err"
 
     def getFileTree(self,dir):
@@ -1447,8 +1449,8 @@ class ctrlAction(QThread):
             self.ui.myDefaultProgram=""
             pass
 
-        # self.emit(SIGNAL("reflushTree"),res)
-        self.reflushTree.emit(res)
+        # self.emit(SIGNAL("sig_reflushTree"),res)
+        self.sig_reflushTree.emit(res)
         self.reflushTreeMsg=""
         self.reflushTreeBool=False
 

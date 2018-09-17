@@ -56,12 +56,12 @@ print(rootDirectoryPath)
 print(currentTempPath)
 print(currentExamplesPath)
 
-if not os.path.exists("%s/AppData/Local/uPyCraft"%rootDirectoryPath):
-    os.makedirs("%s/AppData/Local/uPyCraft"%rootDirectoryPath)
-if not os.path.exists("%s/AppData/Local/uPyCraft/download"%rootDirectoryPath):
-    os.makedirs("%s/AppData/Local/uPyCraft/download"%rootDirectoryPath)
-if not os.path.exists("%s/AppData/Local/uPyCraft/temp"%rootDirectoryPath):
-    os.makedirs("%s/AppData/Local/uPyCraft/temp"%rootDirectoryPath)
+if not os.path.exists("%s/opt/uPyCraft"%rootDirectoryPath):
+    os.makedirs("%s/opt/uPyCraft"%rootDirectoryPath)
+if not os.path.exists("%s/opt/uPyCraft/download"%rootDirectoryPath):
+    os.makedirs("%s/opt/uPyCraft/download"%rootDirectoryPath)
+if not os.path.exists("%s/opt/uPyCraft/temp"%rootDirectoryPath):
+    os.makedirs("%s/opt/uPyCraft/temp"%rootDirectoryPath)
 
 EXPANDED_IMPORT = ("from microbit import pin15, pin2, pin0, pin1,\
                    pin3, pin6, pin4, i2c, pin5, pin7, pin8, Image,\
@@ -190,14 +190,14 @@ class MainWidget(QMainWindow):
         # self.connect(self.ctrl,SIGNAL("sig_uiRecvFromCtrl"),self.uiRecvFromCtrl)
         # self.connect(self.ctrl,SIGNAL("sig_reflushTree"),self.reflushTree)
         # self.connect(self.ctrl,SIGNAL("sig_checkFiremware"),self.checkFiremware)
-        # self.connect(self.ctrl,SIGNAL("sig_loadFileSig"),self.loadFileSig)
-        # self.connect(self.ctrl,SIGNAL("sig_deleteBoardFileSig"),self.deleteBoardFileSig)
+        # self.connect(self.ctrl,SIGNAL("sig_loadFile"),self.loadFile)
+        # self.connect(self.ctrl,SIGNAL("sig_deleteBoardFileSig"),self.deleteBoardFile)
         # self.connect(self.ctrl,SIGNAL("sig_renameDirDeleteDirTab"),self.renameDirDeleteDirTab)
         self.ctrl.sig_uiRecvFromCtrl.connect(self.uiRecvFromCtrl)
         self.ctrl.sig_reflushTree.connect(self.reflushTree)
         self.ctrl.sig_checkFiremware.connect(self.checkFiremware)
-        self.ctrl.sig_loadFileSig.connect(self.loadFileSig)
-        self.ctrl.sig_deleteBoardFileSig.connect(self.deleteBoardFileSig)
+        self.ctrl.sig_loadFile.connect(self.loadFile)
+        self.ctrl.sig_deleteBoardFile.connect(self.deleteBoardFile)
         self.ctrl.sig_renameDirDeleteDirTab.connect(self.renameDirDeleteDirTab)
         #self.connect(self.ctrl,SIGNAL("intoFuncSig"),self.intoFuncSig)
 #timer for serial check
@@ -960,15 +960,15 @@ class MainWidget(QMainWindow):
             else:
                 pass
 
-            if os.path.exists("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath):
-                configfile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+            if os.path.exists("%s/opt/uPyCraft/config.json"%rootDirectoryPath):
+                configfile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
                 mymsg=configfile.read()
                 configfile.close()
                 jsonDict=eval(mymsg)
 
                 jsonDict['workSpace']=str(self.workspacePath)
                 jsonMsg=str(jsonDict)
-                configfile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+                configfile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
                 configfile.write(jsonMsg)
                 configfile.close()
 
@@ -995,8 +995,8 @@ class MainWidget(QMainWindow):
         path=os.getcwd()
         path=path.replace("\\","/")
 
-        if not os.path.exists("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath):
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+        if not os.path.exists("%s/opt/uPyCraft/config.json"%rootDirectoryPath):
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write("{'serial':'None',\
                          'updateURL':'https://git.oschina.net/dfrobot/upycraft/raw/master/uPyCraft.json',\
                          'checkFirmware':'check update',\
@@ -1004,7 +1004,7 @@ class MainWidget(QMainWindow):
                          'workSpace':'%s'}"%(path+"/workSpace"))
             configFile.close()
 
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'rU')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'rU')
             configMsg=configFile.read()
             configFile.close()
 
@@ -1012,11 +1012,11 @@ class MainWidget(QMainWindow):
                 jsonDict=eval(configMsg)
             except:
                 QMessageBox.information(self,self.tr("attention"),self.tr("Please put the uPy_Craft and workSpace into non-Chinese dir."),QMessageBox.Ok)
-                os.remove("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath)
+                os.remove("%s/opt/uPyCraft/config.json"%rootDirectoryPath)
                 return False
             self.workspacePath=path+"/workSpace"
         else:
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'rU')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'rU')
             configMsg=configFile.read()
             configFile.close()
 
@@ -1024,7 +1024,7 @@ class MainWidget(QMainWindow):
                 jsonDict=eval(configMsg)
             except:
                 QMessageBox.information(self,self.tr("attention"),self.tr("Please put the uPy_Craft and workSpace into non-Chinese dir."),QMessageBox.Ok)
-                os.remove("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath)
+                os.remove("%s/opt/uPyCraft/config.json"%rootDirectoryPath)
                 return False
 
             if jsonDict.get("workSpace") != None:
@@ -1037,7 +1037,7 @@ class MainWidget(QMainWindow):
                jsonDict.get('checkFirmware')==None or \
                jsonDict.get('address')==None or \
                jsonDict.get('workSpace')==None:
-                configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+                configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
                 configFile.write("{'serial':'None','updateURL':'https://git.oschina.net/dfrobot/upycraft/raw/master/uPyCraft.json',\
                             'checkFirmware':'check update','address':'China Mainland','workSpace':'%s'}"%self.workspacePath)
                 configFile.close()
@@ -1294,7 +1294,7 @@ class MainWidget(QMainWindow):
         self.tabWidget.currentWidget().markerDeleteAll()
         #self.tabWidget.currentWidget().setMarkerBackgroundColor(QColor(255,0,0))
 
-        syntaxCheckFilePath="%s/AppData/Local/uPyCraft/temp/syntaxCheck.py"%rootDirectoryPath
+        syntaxCheckFilePath="%s/opt/uPyCraft/temp/syntaxCheck.py"%rootDirectoryPath
         syntaxCheckFileText=self.tabWidget.currentWidget().text()
 
         filehandle=open(syntaxCheckFilePath,"wb")
@@ -1333,8 +1333,8 @@ class MainWidget(QMainWindow):
 
         backStdout=sys.stdout
         backStderr=sys.stderr
-        stdoutFilePath="%s/AppData/Local/uPyCraft/temp/stdout.py"%rootDirectoryPath
-        stderrFilePath="%s/AppData/Local/uPyCraft/temp/stderr.py"%rootDirectoryPath
+        stdoutFilePath="%s/opt/uPyCraft/temp/stdout.py"%rootDirectoryPath
+        stderrFilePath="%s/opt/uPyCraft/temp/stderr.py"%rootDirectoryPath
         stdoutFile=open(stdoutFilePath,'w')
         stderrFile=open(stderrFilePath,'w')
         sys.stdout=stdoutFile
@@ -1481,7 +1481,7 @@ class MainWidget(QMainWindow):
             self.terminal.append(str(e))
             return
 
-        configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+        configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
         configText=configFile.read()
         configFile.close()
 
@@ -1491,7 +1491,7 @@ class MainWidget(QMainWindow):
             jsonDict['serial']=action.text()
             configText=str(jsonDict)
 
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write(configText)
             configFile.close()
 
@@ -1600,7 +1600,7 @@ class MainWidget(QMainWindow):
             self.serialCloseToolsAction.setVisible(True)
             return
 
-        configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+        configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
         configText=configFile.read()
         configFile.close()
 
@@ -1859,11 +1859,11 @@ class MainWidget(QMainWindow):
         path=os.getcwd()
         path=path.replace("\\","/")
 
-        configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+        configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
         configFile.write("{'serial':'None','updateURL':'https://git.oschina.net/dfrobot/upycraft/raw/master/uPyCraft.json',\
                          'checkFirmware':'check update','address':'China Mainland','workSpace':'null'}")
         configFile.close()
-        configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'rU')
+        configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'rU')
         configText=configFile.read()
         configFile.close()
 
@@ -1871,7 +1871,7 @@ class MainWidget(QMainWindow):
             jsonDict=eval(configText)
         except Exception:
             QMessageBox.information(self,self.tr("attention"),self.tr("Please put the uPy_Craft and workSpace into non-Chinese dir."),QMessageBox.Ok)
-            os.remove("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath)
+            os.remove("%s/opt/uPyCraft/config.json"%rootDirectoryPath)
             return
         self.workspacePath="null"
 
@@ -1886,7 +1886,7 @@ class MainWidget(QMainWindow):
         #  slotLanlocLocation
         #  slotWetherUpdateFirmware
     def slotPreferences(self):
-        configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+        configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
         configText=configFile.read()
         configFile.close()
 
@@ -1911,7 +1911,7 @@ class MainWidget(QMainWindow):
 
     def slotLanlocLocation(self,item):
         if self.preferencesDialog.landlocation.locationComboBox.currentText()=="China Mainland":
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
             configText=configFile.read()
             configFile.close()
             jsonDict=eval(configText)
@@ -1919,11 +1919,11 @@ class MainWidget(QMainWindow):
             jsonDict['updateURL']="https://git.oschina.net/dfrobot/upycraft/raw/master/uPyCraft.json"
             jsonDict['address']="China Mainland"
             configText=str(jsonDict)
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write(configText)
             configFile.close()
         else:
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
             configText=configFile.read()
             configFile.close()
             jsonDict=eval(configText)
@@ -1931,31 +1931,31 @@ class MainWidget(QMainWindow):
             jsonDict['updateURL']="https://github.com/DFRobot/uPyCraft/raw/master/uPyCraft.json"
             jsonDict['address']="others"
             configText=str(jsonDict)
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write(configText)
             configFile.close()
 
     def slotWetherUpdateFirmware(self):
         if self.preferencesDialog.configUpdate.checkBinComBox.currentText()=="check update":
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
             configText=configFile.read()
             configFile.close()
             jsonDict=eval(configText)
 
             jsonDict['checkFirmware']="check update"
             configText=str(jsonDict)
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write(configText)
             configFile.close()
         else:
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
             configText=configFile.read()
             configFile.close()
             jsonDict=eval(configText)
 
             jsonDict['checkFirmware']="no check"
             configText=str(jsonDict)
-            configFile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'w')
+            configFile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'w')
             configFile.write(configText)
             configFile.close()
 
@@ -2498,10 +2498,10 @@ class MainWidget(QMainWindow):
                     self.slotCloseSerial()
 
                 print("update!")
-                if os.path.exists("%s/AppData/Local/uPyCraft/update.json"%rootDirectoryPath)==False:
+                if os.path.exists("%s/opt/uPyCraft/update.json"%rootDirectoryPath)==False:
                     self.terminal.append("hope to connect internet and restart the IDE")
                     return
-                myfile=open("%s/AppData/Local/uPyCraft/update.json"%rootDirectoryPath,"r")
+                myfile=open("%s/opt/uPyCraft/update.json"%rootDirectoryPath,"r")
                 page = myfile.read()
                 myfile.close()
                 #print page
@@ -2515,7 +2515,7 @@ class MainWidget(QMainWindow):
 
                 self.firmwareNameList=url.split("/")
                 self.updateSize=firmwareList[str(self.updateBin.boardComboBox.currentText())][0]["size"]
-                self.firmwareSavePath=("%s/AppData/Local/uPyCraft/download/%s"%(rootDirectoryPath,self.firmwareNameList[-1]))
+                self.firmwareSavePath=("%s/opt/uPyCraft/download/%s"%(rootDirectoryPath,self.firmwareNameList[-1]))
 
                 if self.updateBin.boardComboBox.currentText()=="microbit" and os.path.exists(self.firmwareSavePath):
                     self.microbitUpdate()
@@ -2836,7 +2836,7 @@ class MainWidget(QMainWindow):
         isCheckFirmware=ischeck
 
     def checkFiremware(self,msg):
-        global updateFirmwareList
+        global updateFirmwareListupdateFirmwareList
         print("checkfirmware=%s"%msg)
         if msg=="false":
             return
@@ -2862,7 +2862,7 @@ class MainWidget(QMainWindow):
             self.boardOther()
             return
 
-        myfile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+        myfile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
         jsonMsg=myfile.read()
         myfile.close()
         jsonDict=eval(jsonMsg)
@@ -2889,10 +2889,10 @@ class MainWidget(QMainWindow):
             print("internal false")
 
 
-    def loadFileSig(self,filename,data):
+    def loadFile(self,filename,data):
         self.tabWidget.createNewTab(filename,data,self.lexer)
 
-    def deleteBoardFileSig(self,deletedFile):
+    def deleteBoardFile(self,deletedFile):
         self.terminal.append("delete ok")
         if deletedFile in self.fileitem.list:
             num=0
