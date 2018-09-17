@@ -467,8 +467,8 @@ class MainWidget(QMainWindow):
             self.boardTPYBoardV202()
         elif self.currentBoard=="TPYBoardV102":
             self.boardTPYBoardV102()
-        elif self.currentBoard=="OpenMVSTM32F765":
-            self.boardOpenMVSTM32F765()
+        elif self.currentBoard=="OpenMVF7":
+            self.boardOpenMVF7()
         else:
             self.boardOther()
 
@@ -618,10 +618,10 @@ class MainWidget(QMainWindow):
         self.TPYBoardV102.triggered.connect(self.boardTPYBoardV102)
         self.TPYBoardV102.setCheckable(True)
 
-        self.OpenMVSTM32F765=QAction(self.tr("OpenMVSTM32F765"),self)
-        # self.connect(self.OpenMVSTM32F765,SIGNAL("triggered()"),self.boardOpenMVSTM32F765)
-        self.OpenMVSTM32F765.triggered.connect(self.boardOpenMVSTM32F765)
-        self.OpenMVSTM32F765.setCheckable(True)
+        self.OpenMVF7=QAction(self.tr("OpenMVF7"),self)
+        # self.connect(self.OpenMVF7,SIGNAL("triggered()"),self.boardOpenMVF7)
+        self.OpenMVF7.triggered.connect(self.boardOpenMVF7)
+        self.OpenMVF7.setCheckable(True)
 
         self.otherBoard=QAction(self.tr("other"),self)
         # self.connect(self.otherBoard,SIGNAL("triggered()"),self.boardOther)
@@ -630,22 +630,24 @@ class MainWidget(QMainWindow):
 
         self.boardActionGroup=QActionGroup(self)
         self.boardActionGroup.addAction(self.esp8266)
-        self.boardActionGroup.addAction(self.TPYBoardV202)
         self.boardActionGroup.addAction(self.esp32)
-        self.boardActionGroup.addAction(self.pyboard)
+        self.boardActionGroup.addAction(self.TPYBoardV202)
         self.boardActionGroup.addAction(self.TPYBoardV102)
         self.boardActionGroup.addAction(self.microbit)
+        self.boardActionGroup.addAction(self.pyboard)
+        self.boardActionGroup.addAction(self.OpenMVF7)
         self.boardActionGroup.addAction(self.otherBoard)
         self.boardActionGroup.setExclusive(True)
 
         self.boardMenu = QMenu(self.tr("board"))
 
         self.boardMenu.addAction(self.esp8266)
-        self.boardMenu.addAction(self.TPYBoardV202)
         self.boardMenu.addAction(self.esp32)
-        self.boardMenu.addAction(self.pyboard)
+        self.boardMenu.addAction(self.TPYBoardV202)
         self.boardMenu.addAction(self.TPYBoardV102)
         self.boardMenu.addAction(self.microbit)
+        self.boardMenu.addAction(self.pyboard)
+        self.boardMenu.addAction(self.OpenMVF7)
         self.boardMenu.addAction(self.otherBoard)
         #self.boardMenuTools=QAction(QIcon(":/board.png"),self.tr("board"),self)
         self.boardMenuTools=QAction(self.tr("board"),self)
@@ -2139,8 +2141,8 @@ class MainWidget(QMainWindow):
 
         self.createExampleMenu()
 
-    def boardOpenMVSTM32F765(self):
-        self.currentBoard="OpenMV"
+    def boardOpenMVF7(self):
+        self.currentBoard="OpenMVF7"
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
@@ -2186,7 +2188,8 @@ class MainWidget(QMainWindow):
                            filename[boardNum]=="pyboard" or \
                            filename[boardNum]=="microbit" or \
                            filename[boardNum]=="TPYBoardV202" or \
-                           filename[boardNum]=="TPYBoardV102":
+                           filename[boardNum]=="TPYBoardV102" or \
+                           filename[boardNum]=="OpenMVF7" :
                             break
                         else:
                             appendFilename="/"+filename[boardNum]+appendFilename
@@ -2287,6 +2290,8 @@ class MainWidget(QMainWindow):
             elif self.currentBoard=="esp32":
                 self.checkDefaultProgram = self.rootDir+self.checkDefaultProgram
             elif self.currentBoard=="pyboard":
+                self.checkDefaultProgram = self.rootDir+self.checkDefaultProgram
+            elif self.currentBoard=="openmv":
                 self.checkDefaultProgram = self.rootDir+self.checkDefaultProgram
             elif self.currentBoard=="microbit":
                 self.checkDefaultProgram=self.checkDefaultProgram.split("/")[-1]
@@ -2841,21 +2846,18 @@ class MainWidget(QMainWindow):
         board=msg[0][9:-1]
         if self.currentBoard=="TPYBoardV202" and board=="esp8266":
             self.boardTPYBoardV202()
-            return
         elif board=="esp32":
             self.boardEsp32()
         elif board=="esp8266":
             self.boardEsp8266()
         elif board=="pyboard":
             self.boardPyboard()
-            return
         elif board=="TPYBoard":
             self.boardTPYBoardV102()
-            return
         elif board=="microbit":
             self.boardMicrobit()
-        elif board=="OpenMV":
-            self.boardOpenMVSTM32F765()
+        elif board=="OpenMVF7":
+            self.boardOpenMVF7()
         else:
             self.boardOther()
             return
