@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import *
 
 rootDirectoryPath  =os.path.expanduser("~")
 rootDirectoryPath  =rootDirectoryPath.replace("\\","/")
-currentTempPath="%s/AppData/Local/uPyCraft/temp/"%rootDirectoryPath
+currentTempPath="%s/opt/uPyCraft/temp/"%rootDirectoryPath
 
 class ctrlAction(QThread):
     sig_uiRecvFromCtrl = pyqtSignal(str)
@@ -55,48 +55,34 @@ class ctrlAction(QThread):
             elif msg[0]=="dropdownfile":
                 self.dropDownFileName=msg[1]
                 self.downloadFile(msg[2])
-                pass
             elif msg[0]=="downloadfile":
                 self.downloadFile(msg[1])
-                pass
             elif msg[0]=="loadfile":
                 self.loadFile(msg[1])
-                pass
             elif msg[0]=="dragChangeDir":
                 self.dragChangeDir(msg[1],msg[2])
-                pass
             elif msg[0]=="goprogram":
                 self.goProgram(msg[1])
-                pass
             elif msg[0]=="intofunc":
-                #self.intoFunc(msg[1])
-                pass
+                self.intoFunc(msg[1])
             elif msg[0]=="deleteboardfile":
                 self.deleteFile(msg[1])
-                pass
             elif msg[0]=="setdefaultprogram":
                 self.setDefaultProg(msg[1])
-                pass
             elif msg[0]=="checkFirmware":
                 self.checkFirmware()
-                pass
             elif msg[0]=="createnewdir":
                 self.createNewDir(msg[1],msg[2])
-                pass
             elif msg[0]=="rename":
                 self.rename(msg[1],msg[2])
-                pass
             elif msg[0]=="getcwd":
                 self.getcwd()
-                pass
             elif msg[0]=="importOs":
                 self.importUos()
-                pass
             elif msg[0]=="close":
                 break
             elif msg[0]=="clear":
                 self.clear()
-                pass
 
         self.exit()
 

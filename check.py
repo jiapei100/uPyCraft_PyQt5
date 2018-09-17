@@ -14,10 +14,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-nowIDEVersion      ="1.1"
-nowExamplesVersion="v0.0"
-rootDirectoryPath  =os.path.expanduser("~")
-rootDirectoryPath  =rootDirectoryPath.replace("\\","/")
+nowIDEVersion      = "1.1"
+nowExamplesVersion = "v2.0"
+rootDirectoryPath  = os.path.expanduser("~")
+rootDirectoryPath  = rootDirectoryPath.replace("\\","/")
 
 class checkVersionExampleFire(QThread):
     # Modified by Pei JIA, 2018-09-13
@@ -60,8 +60,8 @@ class checkVersionExampleFire(QThread):
             nowExamplesVersion=jsonMsg["version"]
 
         checkUpdateUrl=""
-        if os.path.exists("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath)==True:
-            myfile=open("%s/AppData/Local/uPyCraft/config.json"%rootDirectoryPath,'r')
+        if os.path.exists("%s/opt/uPyCraft/config.json"%rootDirectoryPath)==True:
+            myfile=open("%s/opt/uPyCraft/config.json"%rootDirectoryPath,'r')
             jsonMsg=myfile.read()
             myfile.close()
             jsonDict=eval(jsonMsg)
@@ -85,7 +85,7 @@ class checkVersionExampleFire(QThread):
             res=request.urlopen(checkUpdateUrl)
             page=res.read().decode()
             print(page)
-            myfile = open("%s/AppData/Local/uPyCraft/update.json"%rootDirectoryPath,"w")
+            myfile = open("%s/opt/uPyCraft/update.json"%rootDirectoryPath,"w")
             myfile.write(page)
             myfile.close()
 
@@ -156,7 +156,7 @@ class checkVersionExampleFire(QThread):
                     if self.per==100:
                         f=zipfile.ZipFile(self.downpath,"r")
                         for afile in f.namelist():
-                            f.extract(afile,"%s/AppData/Local/uPyCraft"%rootDirectoryPath)
+                            f.extract(afile,"%s/opt/uPyCraft"%rootDirectoryPath)
                         f.close()
                         # self.emit(SIGNAL("sig_reflushExamples"))
                         self.sig_reflushExamples.emit()
@@ -203,7 +203,7 @@ class checkVersionExampleFire(QThread):
             self.url = self.examplesList[0]["url"]
             examplesNameList = str(self.url).split("/")
             self.updateSize=self.examplesList[0]["size"]
-            self.downpath="%s/AppData/Local/uPyCraft/download/%s"%(rootDirectoryPath,examplesNameList[-1])
+            self.downpath="%s/opt/uPyCraft/download/%s"%(rootDirectoryPath,examplesNameList[-1])
             self.nowDownload="Examples"
         elif gotoUpdate=="Examplescancel":
             self.isDownload=False
