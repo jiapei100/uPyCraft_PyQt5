@@ -469,6 +469,8 @@ class MainWidget(QMainWindow):
             self.boardTPYBoardV102()
         elif self.currentBoard=="OpenMVF7":
             self.boardOpenMVF7()
+        elif self.currentBoard=="OpenMVH7":
+            self.boardOpenMVH7()
         else:
             self.boardOther()
 
@@ -623,6 +625,11 @@ class MainWidget(QMainWindow):
         self.OpenMVF7.triggered.connect(self.boardOpenMVF7)
         self.OpenMVF7.setCheckable(True)
 
+        self.OpenMVH7=QAction(self.tr("OpenMVH7"),self)
+        # self.connect(self.OpenMVH7,SIGNAL("triggered()"),self.boardOpenMVH7)
+        self.OpenMVH7.triggered.connect(self.boardOpenMVH7)
+        self.OpenMVH7.setCheckable(True)
+
         self.otherBoard=QAction(self.tr("other"),self)
         # self.connect(self.otherBoard,SIGNAL("triggered()"),self.boardOther)
         self.otherBoard.triggered.connect(self.boardOther)
@@ -636,6 +643,7 @@ class MainWidget(QMainWindow):
         self.boardActionGroup.addAction(self.microbit)
         self.boardActionGroup.addAction(self.pyboard)
         self.boardActionGroup.addAction(self.OpenMVF7)
+        self.boardActionGroup.addAction(self.OpenMVH7)
         self.boardActionGroup.addAction(self.otherBoard)
         self.boardActionGroup.setExclusive(True)
 
@@ -648,6 +656,7 @@ class MainWidget(QMainWindow):
         self.boardMenu.addAction(self.microbit)
         self.boardMenu.addAction(self.pyboard)
         self.boardMenu.addAction(self.OpenMVF7)
+        self.boardMenu.addAction(self.OpenMVH7)
         self.boardMenu.addAction(self.otherBoard)
         #self.boardMenuTools=QAction(QIcon(":/board.png"),self.tr("board"),self)
         self.boardMenuTools=QAction(self.tr("board"),self)
@@ -785,6 +794,7 @@ class MainWidget(QMainWindow):
         #two follow lines mean:on PC conmon dir and board dir(contians:esp8266,esp32,pyboard,microbit)
         self.PCcommonList=[]
         self.PCboardList=[]
+
         if self.currentBoard=="esp32":
             self.getPCcommonExamples("%s/opt/uPyCraft/examples/Common"%rootDirectoryPath)
             self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/ESP32"%rootDirectoryPath)
@@ -811,6 +821,7 @@ class MainWidget(QMainWindow):
                     newMenu = self.exampleMenu.addMenu(adirList[1])
                     self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
                     menuTitle.append(adirList[1])
+
         elif self.currentBoard=="esp8266":
             self.getPCcommonExamples("%s/opt/uPyCraft/examples/Common"%rootDirectoryPath)
             self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/ESP8266"%rootDirectoryPath)
@@ -819,26 +830,6 @@ class MainWidget(QMainWindow):
                     self.PCcommonList.remove(filename)
 
             self.getPCexamples("%s/opt/uPyCraft/examples/Boards/ESP8266"%rootDirectoryPath,self.exampleMenu)
-            menuTitle=[]
-            for i in self.exampleMenu.findChildren(QMenu):
-                menuTitle.append(i.title())
-            for adir in self.PCcommonList:
-                adirList = adir.split("/")
-                if adirList[1] in menuTitle:
-                    for i in self.exampleMenu.findChildren(QMenu):
-                        if i.title()==adirList[1]:
-                            self.addPCcommonExamples(adir[1:],i,adir[1:])
-                            break
-                else:
-                    newMenu = self.exampleMenu.addMenu(adirList[1])
-                    self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
-                    menuTitle.append(adirList[1])
-        elif self.currentBoard=="TPYBoardV202":
-            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/TPYBoardV202"%rootDirectoryPath)
-            for filename in self.PCboardList:
-                if filename in self.PCcommonList:
-                    self.PCcommonList.remove(filename)
-            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/TPYBoardV202"%rootDirectoryPath,self.exampleMenu)
             menuTitle=[]
             for i in self.exampleMenu.findChildren(QMenu):
                 menuTitle.append(i.title())
@@ -874,6 +865,28 @@ class MainWidget(QMainWindow):
                     newMenu = self.exampleMenu.addMenu(adirList[1])
                     self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
                     menuTitle.append(adirList[1])
+
+        elif self.currentBoard=="TPYBoardV202":
+            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/TPYBoardV202"%rootDirectoryPath)
+            for filename in self.PCboardList:
+                if filename in self.PCcommonList:
+                    self.PCcommonList.remove(filename)
+            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/TPYBoardV202"%rootDirectoryPath,self.exampleMenu)
+            menuTitle=[]
+            for i in self.exampleMenu.findChildren(QMenu):
+                menuTitle.append(i.title())
+            for adir in self.PCcommonList:
+                adirList = adir.split("/")
+                if adirList[1] in menuTitle:
+                    for i in self.exampleMenu.findChildren(QMenu):
+                        if i.title()==adirList[1]:
+                            self.addPCcommonExamples(adir[1:],i,adir[1:])
+                            break
+                else:
+                    newMenu = self.exampleMenu.addMenu(adirList[1])
+                    self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
+                    menuTitle.append(adirList[1])
+
         elif self.currentBoard=="TPYBoardV102":
             self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/TPYBoardV102"%rootDirectoryPath)
             for filename in self.PCboardList:
@@ -918,6 +931,49 @@ class MainWidget(QMainWindow):
                     newMenu = self.exampleMenu.addMenu(adirList[1])
                     self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
                     menuTitle.append(adirList[1])
+
+        elif self.currentBoard=="OpenMVF7":
+            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OpenMVF7"%rootDirectoryPath)
+            for filename in self.PCboardList:
+                if filename in self.PCcommonList:
+                    self.PCcommonList.remove(filename)
+            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OpenMVF7"%rootDirectoryPath,self.exampleMenu)
+            menuTitle=[]
+            for i in self.exampleMenu.findChildren(QMenu):
+                menuTitle.append(i.title())
+            for adir in self.PCcommonList:
+                adirList = adir.split("/")
+                if adirList[1] in menuTitle:
+                    for i in self.exampleMenu.findChildren(QMenu):
+                        if i.title()==adirList[1]:
+                            self.addPCcommonExamples(adir[1:],i,adir[1:])
+                            break
+                else:
+                    newMenu = self.exampleMenu.addMenu(adirList[1])
+                    self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
+                    menuTitle.append(adirList[1])
+
+        elif self.currentBoard=="OpenMVH7":
+            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OpenMVH7"%rootDirectoryPath)
+            for filename in self.PCboardList:
+                if filename in self.PCcommonList:
+                    self.PCcommonList.remove(filename)
+            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OpenMVH7"%rootDirectoryPath,self.exampleMenu)
+            menuTitle=[]
+            for i in self.exampleMenu.findChildren(QMenu):
+                menuTitle.append(i.title())
+            for adir in self.PCcommonList:
+                adirList = adir.split("/")
+                if adirList[1] in menuTitle:
+                    for i in self.exampleMenu.findChildren(QMenu):
+                        if i.title()==adirList[1]:
+                            self.addPCcommonExamples(adir[1:],i,adir[1:])
+                            break
+                else:
+                    newMenu = self.exampleMenu.addMenu(adirList[1])
+                    self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
+                    menuTitle.append(adirList[1])
+
         else:
             pass
 
@@ -2072,13 +2128,29 @@ class MainWidget(QMainWindow):
 
         self.createExampleMenu()
 
+    def boardEsp8266(self):
+        self.currentBoard="esp8266"
+        # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
+        self.sig_changeCurrentBoard.emit(self.currentBoard)
+        time.sleep(0.005)
+
+        self.autoAPI.clear()
+        self.autoAPI.prepare()
+
+        self.exampleTools.setMenu(None)
+        self.exampleMenu.clear()    #QMenu.clear is not work
+
+        self.createExampleMenu()
+
     def boardTPYBoardV202(self):
         self.currentBoard="TPYBoardV202"
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
+
         self.autoAPI.clear()
         self.autoAPI.prepare()
+
         self.exampleTools.setMenu(None)
         self.exampleMenu.clear()
 
@@ -2089,23 +2161,12 @@ class MainWidget(QMainWindow):
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
+
         self.autoAPI.clear()
         self.autoAPI.prepare()
+
         self.exampleTools.setMenu(None)
         self.exampleMenu.clear()
-
-        self.createExampleMenu()
-
-    def boardEsp8266(self):
-        self.currentBoard="esp8266"
-        # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
-        self.sig_changeCurrentBoard.emit(self.currentBoard)
-        time.sleep(0.005)
-        self.autoAPI.clear()
-        self.autoAPI.prepare()
-
-        self.exampleTools.setMenu(None)
-        self.exampleMenu.clear()    #QMenu.clear is not work
 
         self.createExampleMenu()
 
@@ -2122,6 +2183,7 @@ class MainWidget(QMainWindow):
         self.exampleMenu.clear()    #QMenu.clear is not work,pyboard not use Communicate
 
         self.createExampleMenu()
+
     def boardMicrobit(self):
         self.currentBoard="microbit"
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
@@ -2146,6 +2208,28 @@ class MainWidget(QMainWindow):
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
+
+        self.autoAPI.clear()
+        self.autoAPI.prepare()
+
+        self.exampleTools.setMenu(None)
+        self.exampleMenu.clear()
+
+        self.createExampleMenu()
+
+    def boardOpenMVH7(self):
+        self.currentBoard="OpenMVH7"
+        # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
+        self.sig_changeCurrentBoard.emit(self.currentBoard)
+        time.sleep(0.005)
+
+        self.autoAPI.clear()
+        self.autoAPI.prepare()
+
+        self.exampleTools.setMenu(None)
+        self.exampleMenu.clear()
+
+        self.createExampleMenu()
 
     def boardOther(self):
         self.currentBoard="other"
@@ -2189,7 +2273,8 @@ class MainWidget(QMainWindow):
                            filename[boardNum]=="microbit" or \
                            filename[boardNum]=="TPYBoardV202" or \
                            filename[boardNum]=="TPYBoardV102" or \
-                           filename[boardNum]=="OpenMVF7" :
+                           filename[boardNum]=="OpenMVF7" or \
+                           filename[boardNum]=="OpenMVH7" :
                             break
                         else:
                             appendFilename="/"+filename[boardNum]+appendFilename
@@ -2858,6 +2943,8 @@ class MainWidget(QMainWindow):
             self.boardMicrobit()
         elif board=="OpenMVF7":
             self.boardOpenMVF7()
+        elif board=="OpenMVH7":
+            self.boardOpenMVH7()
         else:
             self.boardOther()
             return
