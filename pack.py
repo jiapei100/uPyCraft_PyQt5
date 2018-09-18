@@ -1,10 +1,10 @@
 from distutils.core import setup
-import py2exe
+# import py2exe
 import sys
 
 
 #this allows to run it with a simple double click.
-sys.argv.append('py2exe')
+# sys.argv.append('py2exe')
 
 py2exe_options = {
         "includes": ["sip","PyQt5.QtCore","PyQt5.QtGui"],
@@ -23,5 +23,5 @@ setup(
                 }], 
       zipfile = None,
       
-      options = {'py2exe': py2exe_options}
+#       options = {'py2exe': py2exe_options}
       )
