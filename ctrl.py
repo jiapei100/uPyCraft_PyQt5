@@ -131,7 +131,6 @@ class ctrlAction(QThread):
         else:
             self.ctrltouartQueue.put("ctrltouart:::import os\r\n")
 
-        print("Everything is OK 1")
         startTime=time.time()
         while True:
             if self.importUosMsg=="":
@@ -158,7 +157,6 @@ class ctrlAction(QThread):
                 time.sleep(0.01)
             return
 
-        print("Everything is OK 2")
         self.importUosBool=False
         self.importUosMsg=""
 
