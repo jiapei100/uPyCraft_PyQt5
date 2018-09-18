@@ -2138,7 +2138,7 @@ class MainWidget(QMainWindow):
         self.autoAPI.prepare()
 
         self.exampleTools.setMenu(None)
-        self.exampleMenu.clear()    #QMenu.clear is not work
+        self.exampleMenu.clear()
 
         self.createExampleMenu()
 
@@ -2921,7 +2921,7 @@ class MainWidget(QMainWindow):
         isCheckFirmware=ischeck
 
     def checkFiremware(self,msg):
-        global updateFirmwareListupdateFirmwareList
+        global updateFirmwareList
         print("checkfirmware=%s"%msg)
         if msg=="false":
             return
