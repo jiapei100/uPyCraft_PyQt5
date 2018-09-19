@@ -143,7 +143,7 @@ class updateNewFirmware(QDialog):
 
         self.boardLabel=QLabel(self.tr("board"))
         self.boardComboBox=QComboBox()
-        self.boardComboBox.addItems(["esp8266","esp32","TPYBoardV202","TPYBoardV102","microbit","OPENMV3_STM32F765VI","OPENMV4_STM32H743VIT6"])
+        self.boardComboBox.addItems(["esp8266","esp32","TPYBoardV202","TPYBoardV102","microbit","OpenMV_M4","OpenMV_H7"])
         self.boardComboBox.setCurrentIndex(2)
 
         self.burnAddrLabel=QLabel(self.tr("burn_addr"))

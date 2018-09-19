@@ -467,10 +467,10 @@ class MainWidget(QMainWindow):
             self.boardTPYBoardV202()
         elif self.currentBoard=="TPYBoardV102":
             self.boardTPYBoardV102()
-        elif self.currentBoard=="OPENMV3_STM32F765":
-            self.boardOPENMV3_STM32F765()
-        elif self.currentBoard=="OpenMVH7":
-            self.boardOpenMVH7()
+        elif self.currentBoard=="OpenMV_M4":
+            self.boardOpenMVM4()
+        elif self.currentBoard=="OpenMV_H7":
+            self.boardOPENMH7()
         else:
             self.boardOther()
 
@@ -620,15 +620,15 @@ class MainWidget(QMainWindow):
         self.TPYBoardV102.triggered.connect(self.boardTPYBoardV102)
         self.TPYBoardV102.setCheckable(True)
 
-        self.OPENMV3_STM32F765=QAction(self.tr("OPENMV3_STM32F765"),self)
-        # self.connect(self.OPENMV3_STM32F765,SIGNAL("triggered()"),self.boardOPENMV3_STM32F765)
-        self.OPENMV3_STM32F765.triggered.connect(self.boardOPENMV3_STM32F765)
-        self.OPENMV3_STM32F765.setCheckable(True)
+        self.OpenMV_M4=QAction(self.tr("OpenMV_M4"),self)
+        # self.connect(self.OpenMV_M4,SIGNAL("triggered()"),self.boardOpenMVM4)
+        self.OpenMV_M4.triggered.connect(self.boardOpenMVM4)
+        self.OpenMV_M4.setCheckable(True)
 
-        self.OpenMVH7=QAction(self.tr("OpenMVH7"),self)
-        # self.connect(self.OpenMVH7,SIGNAL("triggered()"),self.boardOpenMVH7)
-        self.OpenMVH7.triggered.connect(self.boardOpenMVH7)
-        self.OpenMVH7.setCheckable(True)
+        self.OpenMV_H7=QAction(self.tr("OpenMV_H7"),self)
+        # self.connect(self.OpenMV_H7,SIGNAL("triggered()"),self.boardOPENMH7)
+        self.OpenMV_H7.triggered.connect(self.boardOPENMH7)
+        self.OpenMV_H7.setCheckable(True)
 
         self.otherBoard=QAction(self.tr("other"),self)
         # self.connect(self.otherBoard,SIGNAL("triggered()"),self.boardOther)
@@ -642,8 +642,8 @@ class MainWidget(QMainWindow):
         self.boardActionGroup.addAction(self.TPYBoardV102)
         self.boardActionGroup.addAction(self.microbit)
         self.boardActionGroup.addAction(self.pyboard)
-        self.boardActionGroup.addAction(self.OPENMV3_STM32F765)
-        self.boardActionGroup.addAction(self.OpenMVH7)
+        self.boardActionGroup.addAction(self.OpenMV_M4)
+        self.boardActionGroup.addAction(self.OpenMV_H7)
         self.boardActionGroup.addAction(self.otherBoard)
         self.boardActionGroup.setExclusive(True)
 
@@ -655,8 +655,8 @@ class MainWidget(QMainWindow):
         self.boardMenu.addAction(self.TPYBoardV102)
         self.boardMenu.addAction(self.microbit)
         self.boardMenu.addAction(self.pyboard)
-        self.boardMenu.addAction(self.OPENMV3_STM32F765)
-        self.boardMenu.addAction(self.OpenMVH7)
+        self.boardMenu.addAction(self.OpenMV_M4)
+        self.boardMenu.addAction(self.OpenMV_H7)
         self.boardMenu.addAction(self.otherBoard)
         #self.boardMenuTools=QAction(QIcon(":/board.png"),self.tr("board"),self)
         self.boardMenuTools=QAction(self.tr("board"),self)
@@ -932,12 +932,12 @@ class MainWidget(QMainWindow):
                     self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
                     menuTitle.append(adirList[1])
 
-        elif self.currentBoard=="OPENMV3_STM32F765":
-            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OPENMV3_STM32F765"%rootDirectoryPath)
+        elif self.currentBoard=="OpenMV_M4":
+            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OpenMV_M4"%rootDirectoryPath)
             for filename in self.PCboardList:
                 if filename in self.PCcommonList:
                     self.PCcommonList.remove(filename)
-            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OPENMV3_STM32F765"%rootDirectoryPath,self.exampleMenu)
+            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OpenMV_M4"%rootDirectoryPath,self.exampleMenu)
             menuTitle=[]
             for i in self.exampleMenu.findChildren(QMenu):
                 menuTitle.append(i.title())
@@ -953,12 +953,12 @@ class MainWidget(QMainWindow):
                     self.addPCcommonExamples(adir[1:],newMenu,adir[1:])
                     menuTitle.append(adirList[1])
 
-        elif self.currentBoard=="OpenMVH7":
-            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OpenMVH7"%rootDirectoryPath)
+        elif self.currentBoard=="OpenMV_H7":
+            self.getPCboardExamples("%s/opt/uPyCraft/examples/Boards/OpenMV_H7"%rootDirectoryPath)
             for filename in self.PCboardList:
                 if filename in self.PCcommonList:
                     self.PCcommonList.remove(filename)
-            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OpenMVH7"%rootDirectoryPath,self.exampleMenu)
+            self.getPCexamples("%s/opt/uPyCraft/examples/Boards/OpenMV_H7"%rootDirectoryPath,self.exampleMenu)
             menuTitle=[]
             for i in self.exampleMenu.findChildren(QMenu):
                 menuTitle.append(i.title())
@@ -2203,8 +2203,8 @@ class MainWidget(QMainWindow):
 
         self.createExampleMenu()
 
-    def boardOPENMV3_STM32F765(self):
-        self.currentBoard="OPENMV3_STM32F765"
+    def boardOpenMVM4(self):
+        self.currentBoard="OpenMV_M4"
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
@@ -2217,8 +2217,8 @@ class MainWidget(QMainWindow):
 
         self.createExampleMenu()
 
-    def boardOpenMVH7(self):
-        self.currentBoard="OpenMVH7"
+    def boardOPENMH7(self):
+        self.currentBoard="OpenMV_H7"
         # self.emit(SIGNAL("sig_changeCurrentBoard"),self.currentBoard)
         self.sig_changeCurrentBoard.emit(self.currentBoard)
         time.sleep(0.005)
@@ -2273,8 +2273,8 @@ class MainWidget(QMainWindow):
                            filename[boardNum]=="microbit" or \
                            filename[boardNum]=="TPYBoardV202" or \
                            filename[boardNum]=="TPYBoardV102" or \
-                           filename[boardNum]=="OPENMV3_STM32F765" or \
-                           filename[boardNum]=="OpenMVH7" :
+                           filename[boardNum]=="OpenMV_M4" or \
+                           filename[boardNum]=="OpenMV_H7" :
                             break
                         else:
                             appendFilename="/"+filename[boardNum]+appendFilename
@@ -2941,10 +2941,10 @@ class MainWidget(QMainWindow):
             self.boardTPYBoardV102()
         elif board=="microbit":
             self.boardMicrobit()
-        elif board=="OPENMV3_STM32F765":
-            self.boardOPENMV3_STM32F765()
-        elif board=="OpenMVH7":
-            self.boardOpenMVH7()
+        elif board=="OpenMV_M4":
+            self.boardOpenMVM4()
+        elif board=="OpenMV_H7":
+            self.boardOPENMH7()
         else:
             self.boardOther()
             return
